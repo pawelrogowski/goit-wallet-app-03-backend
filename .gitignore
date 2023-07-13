@@ -2,10 +2,10 @@ node_modules/
 .idea
 .vscode
 .env
-!/routes
-!/controllers
-!/middlewares
-!/models
-!/routes/api
-!/services
-!/utils/email
+!/routes/
+!/controllers/
+!/middlewares/
+!/models/
+!/routes/api/
+!/services/
+!/utils/email/
