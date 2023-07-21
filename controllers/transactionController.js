@@ -3,7 +3,21 @@ const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
 
-// Create new transaction
+/**
+ * @openapi
+ * /transactions:
+ *   post:
+ *     summary: Create a transaction
+ *     tags:
+ *       - Transactions
+ *     requestBody:
+ *       $ref: '#/components/requestBodies/TransactionRequest'
+ *     responses:
+ *       201:
+ *         $ref: '#/components/responses/TransactionCreated'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ */
 const createTransaction = async (req, res) => {
   const { amount, category, date, isIncome, comment } = req.body;
 
@@ -42,6 +56,21 @@ const createTransaction = async (req, res) => {
   }
 };
 
+/**
+ * @openapi
+ * /transactions/{id}:
+ *  delete:
+ *    summary: Delete a transaction
+ *    tags:
+ *      - Transactions
+ *    parameters:
+ *      - $ref: '#/components/parameters/TransactionId'
+ *    responses:
+ *      200:
+ *        $ref: '#/components/responses/Success'
+ *      404:
+ *        $ref: '#/components/responses/NotFound'
+ */
 // Delete transaction
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;

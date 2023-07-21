@@ -1,4 +1,32 @@
 // ./app.js
+
+/**
+ * @openapi
+ * /info:
+ *   version: 1.0.0
+ *   title: Wallet Budgeting App API
+ *   description: API for registering users, managing wallet transactions and statistics.
+ *   termsOfService: https://walletapp.com/terms/
+ *   contact:
+ *     name: API Support
+ *     url: https://walletapp.com/support
+ *     email: support@walletapp.com
+ * /servers:
+ *   - url: https://api.walletapp.com/v1
+ * /components/securitySchemes:
+ *   bearerAuth:
+ *     type: http
+ *     scheme: bearer
+ *     bearerFormat: JWT
+ * /tags:
+ *   - name: Users
+ *     description: User registration and authentication
+ *   - name: Transactions
+ *     description: Manage transactions and statistics
+ * components:
+ *   $ref: './docs/components.js'
+ */
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
