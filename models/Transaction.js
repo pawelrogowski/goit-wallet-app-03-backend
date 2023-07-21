@@ -1,3 +1,4 @@
+// ./models/Transaction.js
 const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema(
@@ -7,22 +8,35 @@ const TransactionSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+
     amount: {
       type: Number,
       required: true,
     },
+
     category: {
       type: String,
       required: true,
     },
+
     date: {
-      type: Date,
+      type: String,
       required: true,
+    },
+
+    isIncome: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+
+    comment: {
+      type: String,
+      required: false,
     },
   },
   {
     timestamps: true,
-    versionKey: false,
   }
 );
 

@@ -1,5 +1,8 @@
+// ./middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model
+const { TokenExpiredError } = require('jsonwebtoken'); // Import the TokenExpiredError class
 
 const auth = async (req, res, next) => {
   try {
@@ -13,6 +16,12 @@ const auth = async (req, res, next) => {
     // Check if token is missing or in an incorrect format
     if (!token) {
       return res.status(401).json({ error: 'Authentication token missing' });
+    }
+
+    // Verify if the token is blacklisted
+    const isBlacklisted = await BlacklistedToken.exists({ token });
+    if (isBlacklisted) {
+      return res.status(401).json({ error: 'Authentication token has expired' });
     }
 
     // Verify the token using the secret key and enable expiration check
@@ -39,12 +48,12 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     // Handle different types of token validation errors
-    if (error.name === 'TokenExpiredError') {
+    if (error instanceof TokenExpiredError) {
       return res.status(401).json({ error: 'Authentication token has expired' });
+    } else {
+      console.log(error);
+      res.status(401).json({ error: 'Invalid authentication token' });
     }
-
-    // Catch other token validation errors (e.g., invalid token format or JWT_SECRET mismatch)
-    res.status(401).json({ error: 'Invalid authentication token' });
   }
 };
 

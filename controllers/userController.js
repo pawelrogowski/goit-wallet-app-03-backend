@@ -1,8 +1,33 @@
+// ./controllers/userController.js
 const User = require('../models/User');
+const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model
 const { generateToken } = require('../utils/token.js');
 const validator = require('validator');
 
-// Register a new user
+/**
+ * @openapi
+ * /users/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       description: User details
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: User created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ */
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -30,8 +55,10 @@ const register = async (req, res) => {
       password,
     });
 
+    // Generate JWT token for a new user
     const token = generateToken(user._id);
 
+    // Give a response with user and the token
     res.status(201).json({
       user,
       token,
@@ -43,7 +70,21 @@ const register = async (req, res) => {
   }
 };
 
-// Login an existing user
+/**
+ * @openapi
+ * /users/login:
+ *   post:
+ *     summary: Login a user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       $ref: '#/components/requestBodies/LoginRequest'
+ *     responses:
+ *       200:
+ *         $ref: '#/components/responses/AuthSuccess'
+ *       400:
+ *         $ref: '#/components/responses/AuthError'
+ */
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -73,7 +114,12 @@ const login = async (req, res) => {
   }
 };
 
-// Get user profile
+/**
+ * Get user profile
+ *
+ * @returns {User} 200 - Success
+ * @returns {Error} 404 - User not found
+ */
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -95,12 +141,20 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// Log user out
+/**
+ * Logout a user
+ *
+ * @returns {SuccessMessage} 200 - Success
+ */
 const logout = async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter(token => {
-      return token.token !== req.token;
-    });
+    const tokenToBlacklist = req.token; // Get the token to be blacklisted
+
+    // Add the token to the BlacklistedToken collection
+    await BlacklistedToken.create({ token: tokenToBlacklist });
+
+    // Filter out the token from the user's tokens (optional but recommended)
+    req.user.tokens = req.user.tokens.filter(token => token.token !== tokenToBlacklist);
 
     await req.user.save();
 

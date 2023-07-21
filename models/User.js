@@ -1,3 +1,4 @@
+// ./models/User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -11,12 +12,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      // Remove the validation here
     },
     password: {
       type: String,
       required: true,
-      // Remove the validation here
     },
   },
   {
