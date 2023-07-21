@@ -10,6 +10,16 @@
       "url": "http://localhost:3000/api"
     }
   ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API endpoints related to user management."
+    },
+    {
+      "name": "Transactions",
+      "description": "API endpoints related to transaction management."
+    }
+  ],
 
   "components": {
     "securitySchemes": {
@@ -188,6 +198,11 @@
       "post": {
         "tags": ["Transactions"],
         "summary": "Create a new transaction",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -212,6 +227,11 @@
       "delete": {
         "tags": ["Transactions"],
         "summary": "Delete transaction by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -238,6 +258,11 @@
       "get": {
         "tags": ["Transactions"],
         "summary": "Filter transactions by month and year",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "month",
