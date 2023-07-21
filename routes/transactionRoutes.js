@@ -1,21 +1,23 @@
+// ./routes/TransactionRoutes.js
 const express = require('express');
 const router = express.Router();
 
 const {
   createTransaction,
-  getTransactions,
-  getStats,
+  deleteTransaction,
+  filterTransactions,
 } = require('../controllers/transactionController');
 
 const auth = require('../middlewares/authMiddleware');
 
-// Create a new transaction
+// Existing routes
+
 router.post('/', auth, createTransaction);
 
-// Get transactions for logged in user
-router.get('/', auth, getTransactions);
+router.get('/:month/:year', auth, filterTransactions);
 
-// Get aggregate stats for user
-router.get('/stats', auth, getStats);
+// New routes
+
+router.delete('/:id', auth, deleteTransaction);
 
 module.exports = router;

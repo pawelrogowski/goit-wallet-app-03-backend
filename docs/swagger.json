@@ -10,6 +10,79 @@
       "url": "http://localhost:3000/api"
     }
   ],
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "isIncome": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+
+      "Error": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "param": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+
   "paths": {
     "/users/register": {
       "post": {
@@ -29,7 +102,14 @@
             "description": "User created successfully"
           },
           "400": {
-            "description": "Validation error"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -65,22 +145,122 @@
           }
         }
       }
-    }
-  },
+    },
 
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
+    "/users/profile": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get profile of authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully"
           },
-          "email": {
-            "type": "string"
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
+    "/users/logout": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Logout authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logged out successfully"
+          }
+        }
+      }
+    },
+
+    "/transactions": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "Create a new transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction created successfully"
           },
-          "password": {
-            "type": "string"
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+
+    "/transactions/{id}": {
+      "delete": {
+        "tags": ["Transactions"],
+        "summary": "Delete transaction by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of transaction to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        }
+      }
+    },
+
+    "/transactions/{month}/{year}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Filter transactions by month and year",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "description": "Month to filter by (1-12)"
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "description": "Year to filter by (4 digit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions filtered successfully"
+          },
+          "400": {
+            "description": "Invalid filter parameters"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }

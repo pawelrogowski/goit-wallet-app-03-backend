@@ -1,4 +1,6 @@
+// ./controllers/userController.js
 const User = require('../models/User');
+const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model
 const { generateToken } = require('../utils/token.js');
 const validator = require('validator');
 
@@ -30,8 +32,10 @@ const register = async (req, res) => {
       password,
     });
 
+    // Generate JWT token for a new user
     const token = generateToken(user._id);
 
+    // Give a response with user and the token
     res.status(201).json({
       user,
       token,
@@ -98,9 +102,13 @@ const getUserProfile = async (req, res) => {
 // Log user out
 const logout = async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter(token => {
-      return token.token !== req.token;
-    });
+    const tokenToBlacklist = req.token; // Get the token to be blacklisted
+
+    // Add the token to the BlacklistedToken collection
+    await BlacklistedToken.create({ token: tokenToBlacklist });
+
+    // Filter out the token from the user's tokens (optional but recommended)
+    req.user.tokens = req.user.tokens.filter(token => token.token !== tokenToBlacklist);
 
     await req.user.save();
 

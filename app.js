@@ -1,3 +1,4 @@
+// ./app.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -24,9 +25,16 @@ app.use('/api/transactions', transactionRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+  // Check if the error is a known Mongoose validation error
+  if (err.name === 'ValidationError') {
+    const errors = Object.values(err.errors).map(error => error.message);
+    return res.status(400).json({ errors });
+  }
+
+  // Handle other types of errors
   console.error(err.stack);
   res.status(500).json({
-    message: 'Something went wrong',
+    error: 'Something went wrong',
   });
 });
 

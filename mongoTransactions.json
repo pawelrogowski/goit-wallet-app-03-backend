@@ -1,0 +1,182 @@
+[
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 1000,
+    "category": "Income",
+    "date": "01-01-2023",
+    "isIncome": true,
+    "comment": "Monthly salary",
+    "_id": "1"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 150,
+    "category": "Products",
+    "date": "05-01-2023",
+    "isIncome": false,
+    "comment": "Groceries",
+    "_id": "2"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 50,
+    "category": "Car",
+    "date": "15-01-2023",
+    "isIncome": false,
+    "comment": "Fuel",
+    "_id": "3"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 200,
+    "category": "Self care",
+    "date": "23-01-2023",
+    "isIncome": false,
+    "comment": "Spa day",
+    "_id": "4"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 100,
+    "category": "Child care",
+    "date": "02-02-2023",
+    "isIncome": false,
+    "comment": "Babysitter",
+    "_id": "5"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 30,
+    "category": "Household products",
+    "date": "08-02-2023",
+    "isIncome": false,
+    "comment": "Cleaning supplies",
+    "_id": "6"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 300,
+    "category": "Education",
+    "date": "15-03-2023",
+    "isIncome": false,
+    "comment": "Online course",
+    "_id": "7"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 80,
+    "category": "Leisure",
+    "date": "20-03-2023",
+    "isIncome": false,
+    "comment": "Movie tickets",
+    "_id": "8"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 200,
+    "category": "Other expenses",
+    "date": "05-04-2023",
+    "isIncome": false,
+    "comment": "Miscellaneous",
+    "_id": "9"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 120,
+    "category": "Entertainment",
+    "date": "10-04-2023",
+    "isIncome": false,
+    "comment": "Concert tickets",
+    "_id": "10"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 1200,
+    "category": "Income",
+    "date": "01-05-2023",
+    "isIncome": true,
+    "comment": "Bonus",
+    "_id": "11"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 40,
+    "category": "Products",
+    "date": "08-05-2023",
+    "isIncome": false,
+    "comment": "Snacks",
+    "_id": "12"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 60,
+    "category": "Car",
+    "date": "20-05-2023",
+    "isIncome": false,
+    "comment": "Car wash",
+    "_id": "13"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 100,
+    "category": "Self care",
+    "date": "05-06-2023",
+    "isIncome": false,
+    "comment": "Haircut",
+    "_id": "14"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 50,
+    "category": "Child care",
+    "date": "15-06-2023",
+    "isIncome": false,
+    "comment": "Toys",
+    "_id": "15"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 25,
+    "category": "Household products",
+    "date": "02-07-2023",
+    "isIncome": false,
+    "comment": "Detergent",
+    "_id": "16"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 150,
+    "category": "Education",
+    "date": "10-07-2023",
+    "isIncome": false,
+    "comment": "Textbooks",
+    "_id": "17"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 70,
+    "category": "Leisure",
+    "date": "25-07-2023",
+    "isIncome": false,
+    "comment": "Theme park",
+    "_id": "18"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 180,
+    "category": "Other expenses",
+    "date": "10-08-2023",
+    "isIncome": false,
+    "comment": "Gifts",
+    "_id": "19"
+  },
+  {
+    "user": "64b9e435dac96d69b4147855",
+    "amount": 50,
+    "category": "Entertainment",
+    "date": "22-08-2023",
+    "isIncome": false,
+    "comment": "Streaming service",
+    "_id": "20"
+  }
+]
