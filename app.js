@@ -6,13 +6,6 @@
  *   version: 1.0.0
  *   title: Wallet Budgeting App API
  *   description: API for registering users, managing wallet transactions and statistics.
- *   termsOfService: https://walletapp.com/terms/
- *   contact:
- *     name: API Support
- *     url: https://walletapp.com/support
- *     email: support@walletapp.com
- * /servers:
- *   - url: https://api.walletapp.com/v1
  * /components/securitySchemes:
  *   bearerAuth:
  *     type: http
