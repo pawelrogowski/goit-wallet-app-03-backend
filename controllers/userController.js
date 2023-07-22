@@ -1,4 +1,3 @@
-// ./controllers/userController.js
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model
 const { generateToken } = require('../utils/token.js');

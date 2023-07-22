@@ -6,7 +6,6 @@ const swaggerDocument = require('./docs/swagger.json');
 const connectDB = require('./db/db');
 const userRouter = require('./routes/userRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
-const selfPing = require('./utils/selfPing');
 const log4js = require('log4js'); // Import Log4js
 const app = express();
 
@@ -37,18 +36,18 @@ app.use(cors());
 // API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Custom middleware for logging HTTP requests
+// middleware for logging
 app.use((req, res, next) => {
   const startTime = new Date();
+  const separator = '----------------------------------------\n';
+  logger.info(separator);
   logger.info(`Request: ${req.method} ${req.url}`);
-  logger.info(`Request Headers: ${JSON.stringify(req.headers)}`);
   logger.info(`Request Body: ${JSON.stringify(req.body)}`);
 
   res.on('finish', () => {
     const responseTime = new Date() - startTime;
     logger.info(`Response Status: ${res.statusCode}`);
     logger.info(`Response Time: ${responseTime} ms`);
-    logger.info(`Response Body: ${JSON.stringify(res.locals.data)}`);
   });
 
   next();
@@ -66,15 +65,23 @@ app.use((err, req, res, next) => {
     return res.status(400).json({ errors });
   }
 
-  // Handle other types of errors
-  logger.error(err.stack);
-  res.status(500).json({
+  // Handle other types of errors (including unhandled rejections)
+  if (err) {
+    logger.error(err.stack);
+  }
+  // Check if headers have already been sent, and if so, just close the response
+  if (res.headersSent) {
+    return res.end();
+  }
+
+  // Respond with a generic error message for any other type of error
+  return res.status(500).json({
     error: 'Something went wrong',
   });
 });
 
 const PORT = process.env.PORT || 3000;
-const deployedServerURL = 'https://wallet-lzvg.onrender.com';
+
 async function startApp() {
   try {
     await connectDB();
@@ -83,10 +90,6 @@ async function startApp() {
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
     });
-
-    // Start self-pinging after the app has started
-    const pingInterval = 6000;
-    setInterval(() => selfPing(deployedServerURL), pingInterval);
   } catch (error) {
     logger.error('Failed to connect to the database:', error);
   }

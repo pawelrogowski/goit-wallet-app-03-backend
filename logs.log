@@ -26,3 +26,271 @@
 [2023-07-22T11:49:13.975] [INFO] default - Server running on port 3000
 [2023-07-22T11:49:39.598] [INFO] default - MongoDB connected successfully
 [2023-07-22T11:49:39.606] [INFO] default - Server running on port 3000
+[2023-07-22T12:08:01.110] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:08:01.121] [INFO] default - Server running on port 3000
+[2023-07-22T12:16:37.624] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:16:37.638] [INFO] default - Server running on port 3000
+[2023-07-22T12:23:34.223] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:23:34.239] [INFO] default - Server running on port 3000
+[2023-07-22T12:27:34.361] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:27:34.371] [INFO] default - Server running on port 3000
+[2023-07-22T12:28:24.769] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:28:24.777] [INFO] default - Server running on port 3000
+[2023-07-22T12:30:39.110] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:30:39.120] [INFO] default - Server running on port 3000
+[2023-07-22T12:31:01.155] [INFO] default - Request: POST /users/login
+[2023-07-22T12:31:01.156] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"56","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:31:01.156] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:31:01.158] [INFO] default - Response Status: 404
+[2023-07-22T12:31:01.158] [INFO] default - Response Time: 3 ms
+[2023-07-22T12:31:01.159] [INFO] default - Response Body: undefined
+[2023-07-22T12:32:58.430] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:32:58.437] [INFO] default - Server running on port 3000
+[2023-07-22T12:33:06.405] [INFO] default - Request: POST /users/login
+[2023-07-22T12:33:06.406] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"56","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:33:06.406] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:33:06.409] [INFO] default - Response Status: 404
+[2023-07-22T12:33:06.410] [INFO] default - Response Time: 4 ms
+[2023-07-22T12:33:06.410] [INFO] default - Response Body: undefined
+[2023-07-22T12:33:47.926] [INFO] default - Request: POST /users/login
+[2023-07-22T12:33:47.926] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"56","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:33:47.926] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:33:47.927] [INFO] default - Response Status: 404
+[2023-07-22T12:33:47.927] [INFO] default - Response Time: 1 ms
+[2023-07-22T12:33:47.927] [INFO] default - Response Body: undefined
+[2023-07-22T12:35:44.297] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:35:44.305] [INFO] default - Server running on port 3000
+[2023-07-22T12:35:56.506] [INFO] default - Request: POST /users/login
+[2023-07-22T12:35:56.506] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"55","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:35:56.507] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:35:56.507] [INFO] default - Full Request: {
+  method: 'POST',
+  url: '/users/login',
+  headers: {
+    host: 'localhost:3000',
+    connection: 'keep-alive',
+    'content-length': '55',
+    'sec-ch-ua': '"Chromium";v="116", "Not)A;Brand";v="24", "Microsoft Edge";v="116"',
+    accept: '*/*',
+    'content-type': 'application/json',
+    dnt: '1',
+    'sec-ch-ua-mobile': '?0',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0',
+    'sec-ch-ua-platform': '"Linux"',
+    origin: 'http://localhost:3000',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    referer: 'http://localhost:3000/api-docs/',
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'en-US,en;q=0.9'
+  },
+  body: { email: 'test@test.com', password: 'password12345' },
+  query: {},
+  params: {}
+}
+[2023-07-22T12:35:56.512] [INFO] default - Response Status: 404
+[2023-07-22T12:35:56.512] [INFO] default - Response Time: 6 ms
+[2023-07-22T12:35:56.513] [INFO] default - Response Body: undefined
+[2023-07-22T12:36:50.489] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:36:50.501] [INFO] default - Server running on port 3000
+[2023-07-22T12:37:21.705] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:37:21.706] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"55","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:37:21.706] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:37:21.706] [INFO] default - Full Request: {
+  method: 'POST',
+  url: '/api/users/login',
+  headers: {
+    host: 'localhost:3000',
+    connection: 'keep-alive',
+    'content-length': '55',
+    'sec-ch-ua': '"Chromium";v="116", "Not)A;Brand";v="24", "Microsoft Edge";v="116"',
+    accept: '*/*',
+    'content-type': 'application/json',
+    dnt: '1',
+    'sec-ch-ua-mobile': '?0',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0',
+    'sec-ch-ua-platform': '"Linux"',
+    origin: 'http://localhost:3000',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    referer: 'http://localhost:3000/api-docs/',
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'en-US,en;q=0.9'
+  },
+  body: { email: 'test@test.com', password: 'password12345' },
+  query: {},
+  params: {}
+}
+[2023-07-22T12:37:21.837] [INFO] default - Response Status: 200
+[2023-07-22T12:37:21.838] [INFO] default - Response Time: 132 ms
+[2023-07-22T12:37:21.838] [INFO] default - Response Body: undefined
+[2023-07-22T12:39:32.430] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:39:32.442] [INFO] default - Server running on port 3000
+[2023-07-22T12:40:03.600] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:40:03.601] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","content-length":"57","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","accept":"*/*","content-type":"application/json","dnt":"1","sec-ch-ua-mobile":"?0","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","sec-ch-ua-platform":"\"Linux\"","origin":"http://localhost:3000","sec-fetch-site":"same-origin","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/api-docs/","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9"}
+[2023-07-22T12:40:03.601] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:40:03.717] [INFO] default - Response Status: 200
+[2023-07-22T12:40:03.718] [INFO] default - Response Time: 117 ms
+[2023-07-22T12:40:03.718] [INFO] default - Response Body: undefined
+[2023-07-22T12:40:37.978] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:40:37.984] [INFO] default - Server running on port 3000
+[2023-07-22T12:41:00.433] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:41:00.433] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:41:00.558] [INFO] default - Response Status: 200
+[2023-07-22T12:41:00.559] [INFO] default - Response Time: 125 ms
+[2023-07-22T12:41:00.559] [INFO] default - Response Body: undefined
+[2023-07-22T12:42:39.026] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:42:39.037] [INFO] default - Server running on port 3000
+[2023-07-22T12:42:52.004] [INFO] default - Request: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' }
+}
+[2023-07-22T12:42:52.143] [INFO] default - Response: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' },
+  statusCode: 200,
+  responseTime: '139 ms'
+}
+[2023-07-22T12:49:13.109] [[32mINFO[39m] default - MongoDB connected successfully
+[2023-07-22T12:49:13.120] [[32mINFO[39m] default - Server running on port 3000
+[2023-07-22T12:49:46.924] [[32mINFO[39m] default - Request: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' }
+}
+[2023-07-22T12:49:47.638] [[32mINFO[39m] default - Response: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' },
+  statusCode: 200,
+  responseTime: '714 ms'
+}
+[2023-07-22T12:51:30.032] [[32mINFO[39m] default - MongoDB connected successfully
+[2023-07-22T12:51:30.049] [[32mINFO[39m] default - Server running on port 3000
+[2023-07-22T12:51:41.458] [[32mINFO[39m] default - Request: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' }
+}
+[2023-07-22T12:51:41.576] [[32mINFO[39m] default - Response: {
+  method: 'POST',
+  url: '/api/users/login',
+  body: { email: 'test@test.com', password: 'password12345' },
+  statusCode: 200,
+  responseTime: '118 ms'
+}
+[2023-07-22T12:52:10.753] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:52:10.765] [INFO] default - Server running on port 3000
+[2023-07-22T12:52:17.027] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:52:17.028] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:52:17.192] [INFO] default - Response Status: 200
+[2023-07-22T12:52:17.192] [INFO] default - Response Time: 165 ms
+[2023-07-22T12:52:39.602] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:52:39.603] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:52:39.713] [INFO] default - Response Status: 200
+[2023-07-22T12:52:39.714] [INFO] default - Response Time: 111 ms
+[2023-07-22T12:54:40.389] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:54:40.400] [INFO] default - Server running on port 3000
+[2023-07-22T12:54:43.961] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:54:43.961] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:54:43.962] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:54:44.088] [INFO] default - Response Status: 200
+[2023-07-22T12:54:44.088] [INFO] default - Response Time: 127 ms
+[2023-07-22T12:54:44.089] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:54:45.971] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:54:45.972] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:54:45.972] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:54:46.113] [INFO] default - Response Status: 200
+[2023-07-22T12:54:46.113] [INFO] default - Response Time: 142 ms
+[2023-07-22T12:54:46.114] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:55:27.648] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:55:27.659] [INFO] default - Server running on port 3000
+[2023-07-22T12:55:28.827] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:55:28.827] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:55:28.828] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:55:28.951] [INFO] default - Response Status: 200
+[2023-07-22T12:55:28.951] [INFO] default - Response Time: 124 ms
+[2023-07-22T12:55:31.123] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:55:31.123] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:55:31.123] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:55:31.215] [INFO] default - Response Status: 200
+[2023-07-22T12:55:31.215] [INFO] default - Response Time: 92 ms
+[2023-07-22T12:55:43.638] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:55:43.638] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:55:43.639] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:55:43.728] [INFO] default - Response Status: 200
+[2023-07-22T12:55:43.729] [INFO] default - Response Time: 90 ms
+[2023-07-22T12:57:01.073] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:57:01.086] [INFO] default - Server running on port 3000
+[2023-07-22T12:57:05.399] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:57:05.400] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:57:05.400] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:57:05.545] [INFO] default - Response Status: 200
+[2023-07-22T12:57:05.545] [INFO] default - Response Time: 145 ms
+[2023-07-22T12:57:08.212] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:57:08.212] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:57:08.212] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:57:08.319] [INFO] default - Response Status: 200
+[2023-07-22T12:57:08.320] [INFO] default - Response Time: 107 ms
+[2023-07-22T12:57:32.326] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:57:32.335] [INFO] default - Server running on port 3000
+[2023-07-22T12:57:37.252] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:57:37.265] [INFO] default - Server running on port 3000
+[2023-07-22T12:57:39.022] [INFO] default - 
+----------------------------------------
+
+[2023-07-22T12:57:39.023] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:57:39.023] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:57:39.179] [INFO] default - Response Status: 200
+[2023-07-22T12:57:39.179] [INFO] default - Response Time: 157 ms
+[2023-07-22T12:58:03.284] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:58:03.296] [INFO] default - Server running on port 3000
+[2023-07-22T12:58:04.212] [INFO] default - ----------------------------------------
+
+[2023-07-22T12:58:04.213] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:58:04.213] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:58:04.363] [INFO] default - Response Status: 200
+[2023-07-22T12:58:04.364] [INFO] default - Response Time: 151 ms
+[2023-07-22T12:58:09.049] [INFO] default - ----------------------------------------
+
+[2023-07-22T12:58:09.050] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:58:09.050] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:58:09.141] [INFO] default - Response Status: 200
+[2023-07-22T12:58:09.142] [INFO] default - Response Time: 92 ms
+[2023-07-22T12:58:43.601] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:58:43.613] [INFO] default - Server running on port 3000
+[2023-07-22T12:58:45.792] [INFO] default - ---------------------------------------
+ Request: POST /api/users/login
+[2023-07-22T12:58:45.792] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:58:45.916] [INFO] default - Response Status: 200
+[2023-07-22T12:58:45.916] [INFO] default - Response Time: 124 ms
+[2023-07-22T12:59:04.045] [INFO] default - MongoDB connected successfully
+[2023-07-22T12:59:04.051] [INFO] default - Server running on port 3000
+[2023-07-22T12:59:05.760] [INFO] default - ----------------------------------------
+
+[2023-07-22T12:59:05.760] [INFO] default - Request: POST /api/users/login
+[2023-07-22T12:59:05.761] [INFO] default - Request Body: {"email":"test@test.com","password":"password12345"}
+[2023-07-22T12:59:05.902] [INFO] default - Response Status: 200
+[2023-07-22T12:59:05.903] [INFO] default - Response Time: 142 ms

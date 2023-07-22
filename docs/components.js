@@ -1,5 +1,3 @@
-// ./docs/components.js
-
 /**
  * @swagger
  * components:

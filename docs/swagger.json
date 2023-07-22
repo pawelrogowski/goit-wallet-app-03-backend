@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://wallet-lzvg.onrender.com/api"
+      "url": "http://localhost:3000/api"
     }
   ],
   "tags": [
@@ -45,6 +45,17 @@
           }
         }
       },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
 
       "Transaction": {
         "type": "object",
@@ -62,6 +73,49 @@
             "type": "boolean"
           },
           "comment": {
+            "type": "string"
+          }
+        }
+      },
+
+      "TransactionUpdate": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "isIncome": {
+            "type": "boolean"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
             "type": "string"
           }
         }
@@ -243,6 +297,43 @@
         "responses": {
           "200": {
             "description": "Transaction deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Transactions"],
+        "summary": "Update transaction by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of transaction to update"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction updated successfully"
           },
           "401": {
             "description": "Unauthorized"

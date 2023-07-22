@@ -1,4 +1,3 @@
-// ./controllers/transactionController.js
 const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
@@ -149,8 +148,59 @@ const filterTransactions = async (req, res) => {
   }
 };
 
+/**
+ * @openapi
+ * /transactions/{id}:
+ *   patch:
+ *     summary: Update a transaction
+ *     tags: [Transactions]
+ *     parameters:
+ *       - $ref: '#/components/parameters/TransactionId'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TransactionUpdate'
+ *     responses:
+ *       200:
+ *         $ref: '#/components/responses/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+const updateTransaction = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    let transaction = await Transaction.findById(id);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    // Ensure user owns transaction
+    if (transaction.user.toString() !== req.user._id) {
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    // Update fields
+    transaction = await Transaction.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body }, // set fields to update
+      { new: true } // return updated doc
+    );
+
+    res.json(transaction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Server Error' });
+  }
+};
+
 module.exports = {
   createTransaction,
   deleteTransaction,
   filterTransactions,
+  updateTransaction,
 };
