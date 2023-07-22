@@ -1,25 +1,3 @@
-// ./app.js
-
-/**
- * @openapi
- * /info:
- *   version: 1.0.0
- *   title: Wallet Budgeting App API
- *   description: API for registering users, managing wallet transactions and statistics.
- * /components/securitySchemes:
- *   bearerAuth:
- *     type: http
- *     scheme: bearer
- *     bearerFormat: JWT
- * /tags:
- *   - name: Users
- *     description: User registration and authentication
- *   - name: Transactions
- *     description: Manage transactions and statistics
- * components:
- *   $ref: './docs/components.js'
- */
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -28,7 +6,26 @@ const swaggerDocument = require('./docs/swagger.json');
 const connectDB = require('./db/db');
 const userRouter = require('./routes/userRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
+const selfPing = require('./utils/selfPing');
+const log4js = require('log4js'); // Import Log4js
 const app = express();
+
+log4js.configure({
+  appenders: {
+    console: { type: 'console' },
+    file: {
+      type: 'file',
+      filename: 'logs.log',
+      maxLogSize: 3 * 1024 * 1024,
+      backups: 3,
+    },
+  },
+  categories: {
+    default: { appenders: ['console', 'file'], level: 'info' },
+  },
+});
+
+const logger = log4js.getLogger();
 
 // Express middleware
 app.use(express.json());
@@ -39,6 +36,23 @@ app.use(cors());
 
 // API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Custom middleware for logging HTTP requests
+app.use((req, res, next) => {
+  const startTime = new Date();
+  logger.info(`Request: ${req.method} ${req.url}`);
+  logger.info(`Request Headers: ${JSON.stringify(req.headers)}`);
+  logger.info(`Request Body: ${JSON.stringify(req.body)}`);
+
+  res.on('finish', () => {
+    const responseTime = new Date() - startTime;
+    logger.info(`Response Status: ${res.statusCode}`);
+    logger.info(`Response Time: ${responseTime} ms`);
+    logger.info(`Response Body: ${JSON.stringify(res.locals.data)}`);
+  });
+
+  next();
+});
 
 // Routes
 app.use('/api/users', userRouter);
@@ -53,24 +67,28 @@ app.use((err, req, res, next) => {
   }
 
   // Handle other types of errors
-  console.error(err.stack);
+  logger.error(err.stack);
   res.status(500).json({
     error: 'Something went wrong',
   });
 });
 
 const PORT = process.env.PORT || 3000;
-
+const deployedServerURL = 'https://wallet-lzvg.onrender.com';
 async function startApp() {
   try {
     await connectDB();
-    console.log('MongoDB connected successfully');
+    logger.info('MongoDB connected successfully');
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      logger.info(`Server running on port ${PORT}`);
     });
+
+    // Start self-pinging after the app has started
+    const pingInterval = 6000;
+    setInterval(() => selfPing(deployedServerURL), pingInterval);
   } catch (error) {
-    console.error('Failed to connect to the database:', error);
+    logger.error('Failed to connect to the database:', error);
   }
 }
 

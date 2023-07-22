@@ -1,0 +1,28 @@
+[2023-07-22T11:06:23.513] [INFO] default - MongoDB connected successfully
+[2023-07-22T11:06:23.525] [INFO] default - Server running on port 3000
+[2023-07-22T11:08:13.708] [INFO] default - Request: GET /ws
+[2023-07-22T11:08:13.709] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"Upgrade","pragma":"no-cache","cache-control":"no-cache","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","upgrade":"websocket","origin":"http://localhost:3000","sec-websocket-version":"13","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9","sec-websocket-key":"kLc4z4oHNBnHrvzFTfGo6Q==","sec-websocket-extensions":"permessage-deflate; client_max_window_bits"}
+[2023-07-22T11:08:13.709] [INFO] default - Request Body: {}
+[2023-07-22T11:08:13.721] [INFO] default - Response Status: 404
+[2023-07-22T11:08:13.721] [INFO] default - Response Time: 12 ms
+[2023-07-22T11:08:13.721] [INFO] default - Response Body: undefined
+[2023-07-22T11:14:08.770] [INFO] default - MongoDB connected successfully
+[2023-07-22T11:14:08.779] [INFO] default - Server running on port 3000
+[2023-07-22T11:15:35.843] [INFO] default - Request: GET /goit-wallet-app-03-frontend/statistic
+[2023-07-22T11:15:35.844] [INFO] default - Request Headers: {"host":"localhost:3000","connection":"keep-alive","cache-control":"max-age=0","sec-ch-ua":"\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Microsoft Edge\";v=\"116\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Linux\"","dnt":"1","upgrade-insecure-requests":"1","user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","sec-fetch-site":"same-origin","sec-fetch-mode":"navigate","sec-fetch-user":"?1","sec-fetch-dest":"document","referer":"http://localhost:3000/goit-wallet-app-03-frontend/statistic","accept-encoding":"gzip, deflate, br","accept-language":"en-US,en;q=0.9","if-none-match":"W/\"387-x2GcYSvKEZrVXZ/w/GWjLFtFph8\""}
+[2023-07-22T11:15:35.844] [INFO] default - Request Body: {}
+[2023-07-22T11:15:35.850] [INFO] default - Response Status: 404
+[2023-07-22T11:15:35.850] [INFO] default - Response Time: 7 ms
+[2023-07-22T11:15:35.850] [INFO] default - Response Body: undefined
+[2023-07-22T11:29:08.796] [INFO] default - Request: GET /
+[2023-07-22T11:29:08.796] [INFO] default - Request Headers: {"accept":"application/json, text/plain, */*","user-agent":"axios/1.4.0","accept-encoding":"gzip, compress, deflate, br","host":"localhost:3000","connection":"close"}
+[2023-07-22T11:29:08.797] [INFO] default - Request Body: {}
+[2023-07-22T11:29:08.800] [INFO] default - Response Status: 404
+[2023-07-22T11:29:08.801] [INFO] default - Response Time: 5 ms
+[2023-07-22T11:29:08.801] [INFO] default - Response Body: undefined
+[2023-07-22T11:41:01.556] [INFO] default - MongoDB connected successfully
+[2023-07-22T11:41:01.569] [INFO] default - Server running on port 3000
+[2023-07-22T11:49:13.967] [INFO] default - MongoDB connected successfully
+[2023-07-22T11:49:13.975] [INFO] default - Server running on port 3000
+[2023-07-22T11:49:39.598] [INFO] default - MongoDB connected successfully
+[2023-07-22T11:49:39.606] [INFO] default - Server running on port 3000
