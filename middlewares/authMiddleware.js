@@ -1,4 +1,3 @@
-// ./middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model

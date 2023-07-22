@@ -1,4 +1,3 @@
-// ./utils/dateUtils.js
 const moment = require('moment');
 
 function convertToDDMMYYYY(dateString) {

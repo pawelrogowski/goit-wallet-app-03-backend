@@ -1,4 +1,3 @@
-// ./utils/validators.js
 const { check, validationResult } = require('express-validator');
 
 const validateRegister = [

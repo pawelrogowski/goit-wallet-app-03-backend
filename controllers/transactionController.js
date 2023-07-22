@@ -1,8 +1,7 @@
-// ./controllers/transactionController.js
 const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
-
+const categories = require('../utils/transactionCategories');
 /**
  * @openapi
  * /transactions:
@@ -149,8 +148,331 @@ const filterTransactions = async (req, res) => {
   }
 };
 
+/**
+ * @openapi
+ * /transactions/{id}:
+ *   patch:
+ *     summary: Update a transaction
+ *     tags: [Transactions]
+ *     parameters:
+ *       - $ref: '#/components/parameters/TransactionId'
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TransactionUpdate'
+ *     responses:
+ *       200:
+ *         $ref: '#/components/responses/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+const updateTransaction = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    let transaction = await Transaction.findById(id);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    // Ensure user owns transaction
+    if (transaction.user.toString() !== req.user._id) {
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    // Update fields
+    transaction = await Transaction.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body }, // set fields to update
+      { new: true } // return updated doc
+    );
+
+    res.json(transaction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Server Error' });
+  }
+};
+
+const getCategoryTotals = async (req, res) => {
+  // Allowed categories
+
+  try {
+    // Calculate total income
+    const totalIncomeResult = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+          category: 'Income',
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalIncome: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalIncome: 1,
+        },
+      },
+    ]);
+
+    const totalIncome = totalIncomeResult.length ? totalIncomeResult[0].totalIncome : 0;
+
+    // Calculate total expenses
+    const totalExpensesResult = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+          category: { $ne: 'Income' }, // Match all categories except 'Income'
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalExpenses: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalExpenses: 1,
+        },
+      },
+    ]);
+
+    const totalExpenses = totalExpensesResult.length ? totalExpensesResult[0].totalExpenses : 0;
+
+    // Calculate the difference between income and expenses
+    const difference = totalIncome - totalExpenses;
+
+    const results = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+        },
+      },
+      {
+        $group: {
+          _id: '$category',
+          total: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          total: 1,
+        },
+      },
+    ]);
+
+    // fix response array
+    const totals = categories.map(category => {
+      const categoryTotal = results.find(c => c.category === category.name)?.total;
+
+      return {
+        category: category.name,
+        sum: Math.abs(categoryTotal || 0), // Make total positive or 0
+        color: category.color,
+      };
+    });
+
+    // Add the total income, total expenses, and difference at the start of the response
+    const response = {
+      totalIncome: Math.abs(totalIncome), // Make total income positive
+      totalExpenses: Math.abs(totalExpenses), // Make total expenses positive
+      difference,
+      totals,
+    };
+
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const getFilteredCategoryTotals = async (req, res) => {
+  const { month, year } = req.params;
+
+  // Check if month and year are provided
+  if (!month || !year) {
+    return res.status(400).json({ error: 'Please provide month and year' });
+  }
+
+  // Validate req.user._id is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
+
+  try {
+    // Calculate total income
+    const totalIncomeResult = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+          category: 'Income',
+          $expr: {
+            $and: [
+              // Extract year from "date" field and compare with the specified year
+              {
+                $eq: [
+                  { $year: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(year),
+                ],
+              },
+              // Extract month from "date" field and compare with the specified month
+              {
+                $eq: [
+                  { $month: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(month),
+                ],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalIncome: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalIncome: 1,
+        },
+      },
+    ]);
+
+    const totalIncome = totalIncomeResult.length ? totalIncomeResult[0].totalIncome : 0;
+
+    // Calculate total expenses
+    const totalExpensesResult = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+          category: { $ne: 'Income' }, // Match all categories except 'Income'
+          $expr: {
+            $and: [
+              // Extract year from "date" field and compare with the specified year
+              {
+                $eq: [
+                  { $year: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(year),
+                ],
+              },
+              // Extract month from "date" field and compare with the specified month
+              {
+                $eq: [
+                  { $month: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(month),
+                ],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalExpenses: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalExpenses: 1,
+        },
+      },
+    ]);
+
+    const totalExpenses = totalExpensesResult.length ? totalExpensesResult[0].totalExpenses : 0;
+
+    // Calculate the difference between income and expenses
+    const difference = totalIncome - totalExpenses;
+
+    const results = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(req.user._id),
+          $expr: {
+            $and: [
+              // Extract year from "date" field and compare with the specified year
+              {
+                $eq: [
+                  { $year: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(year),
+                ],
+              },
+              // Extract month from "date" field and compare with the specified month
+              {
+                $eq: [
+                  { $month: { $dateFromString: { dateString: '$date', format: '%d-%m-%Y' } } },
+                  parseInt(month),
+                ],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$category',
+          total: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          total: 1,
+        },
+      },
+    ]);
+
+    // fix response array
+    const totals = categories.map(category => {
+      const categoryTotal = results.find(c => c.category === category.name)?.total;
+
+      return {
+        category: category.name,
+        sum: Math.abs(categoryTotal || 0), // Make total positive or 0
+        color: category.color,
+      };
+    });
+
+    // Add the total income, total expenses, and difference at the start of the response
+    const response = {
+      totalIncome: Math.abs(totalIncome), // Make total income positive
+      totalExpenses: Math.abs(totalExpenses), // Make total expenses positive
+      difference,
+      totals,
+    };
+
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 module.exports = {
   createTransaction,
   deleteTransaction,
   filterTransactions,
+  updateTransaction,
+  getCategoryTotals,
+  getFilteredCategoryTotals,
 };

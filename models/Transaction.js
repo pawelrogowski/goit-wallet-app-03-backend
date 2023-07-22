@@ -1,4 +1,3 @@
-// ./models/Transaction.js
 const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema(
@@ -41,3 +40,14 @@ const TransactionSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Transaction', TransactionSchema);
+
+// categories can be:
+// Income
+// Main expenses
+// Products
+// Car
+// Self care
+// Child care
+// Household products
+// Education
+// Other expenses
