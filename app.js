@@ -6,7 +6,7 @@ const swaggerDocument = require('./docs/swagger.json');
 const connectDB = require('./db/db');
 const userRouter = require('./routes/userRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
-const log4js = require('log4js'); // Import Log4js
+const log4js = require('log4js');
 const app = express();
 
 log4js.configure({

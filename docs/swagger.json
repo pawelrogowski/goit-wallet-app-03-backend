@@ -380,6 +380,100 @@
           }
         }
       }
+    },
+    "/transactions/categories/totals": {
+      "get": {
+        "summary": "Get total income, total expenses, difference, and sums by category for the user's transactions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Transactions"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+
+                  "properties": {
+                    "totalIncome": {
+                      "type": "number"
+                    },
+                    "totalExpenses": {
+                      "type": "number"
+                    },
+                    "difference": {
+                      "type": "number"
+                    },
+                    "totals": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CategoryTotal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/categories/{month}/{year}": {
+      "get": {
+        "summary": "Get total income, total expenses, difference, and sums by category for the user's transactions for a specific month",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "description": "Month to filter by (1-12)"
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "description": "Year to filter by (4 digit)"
+          }
+        ],
+        "tags": ["Transactions"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+
+                  "properties": {
+                    "totalIncome": {
+                      "type": "number"
+                    },
+                    "totalExpenses": {
+                      "type": "number"
+                    },
+                    "difference": {
+                      "type": "number"
+                    },
+                    "totals": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CategoryTotal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
