@@ -141,7 +141,7 @@ const updateTransaction = async (req, res) => {
     }
 
     // Ensure user owns transaction
-    if (transaction.user.toString() !== req.user._id) {
+    if (!transaction.user.equals(req.user._id)) {
       return res.status(401).json({ error: 'Not authorized' });
     }
 
