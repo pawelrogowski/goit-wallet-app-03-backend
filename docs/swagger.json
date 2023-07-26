@@ -48,6 +48,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -80,7 +81,17 @@
           }
         }
       },
-
+      "CategoryTotal": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
       "TransactionUpdate": {
         "type": "object",
         "properties": {
@@ -252,6 +263,33 @@
     },
 
     "/transactions": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get all transactions for authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "tags": ["Transactions"],
         "summary": "Create a new transaction",
