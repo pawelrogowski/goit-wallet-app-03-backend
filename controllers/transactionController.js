@@ -2,21 +2,18 @@ const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
 const categories = require('../utils/transactionCategories');
-/**
- * @openapi
- * /transactions:
- *   post:
- *     summary: Create a transaction
- *     tags:
- *       - Transactions
- *     requestBody:
- *       $ref: '#/components/requestBodies/TransactionRequest'
- *     responses:
- *       201:
- *         $ref: '#/components/responses/TransactionCreated'
- *       400:
- *         $ref: '#/components/responses/BadRequest'
- */
+
+const getAllTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find({ user: req.user._id });
+
+    res.json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 const createTransaction = async (req, res) => {
   const { amount, category, date, isIncome, comment } = req.body;
 
@@ -55,21 +52,6 @@ const createTransaction = async (req, res) => {
   }
 };
 
-/**
- * @openapi
- * /transactions/{id}:
- *  delete:
- *    summary: Delete a transaction
- *    tags:
- *      - Transactions
- *    parameters:
- *      - $ref: '#/components/parameters/TransactionId'
- *    responses:
- *      200:
- *        $ref: '#/components/responses/Success'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- */
 // Delete transaction
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;
@@ -148,27 +130,6 @@ const filterTransactions = async (req, res) => {
   }
 };
 
-/**
- * @openapi
- * /transactions/{id}:
- *   patch:
- *     summary: Update a transaction
- *     tags: [Transactions]
- *     parameters:
- *       - $ref: '#/components/parameters/TransactionId'
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/TransactionUpdate'
- *     responses:
- *       200:
- *         $ref: '#/components/responses/Transaction'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- *       404:
- *         $ref: '#/components/responses/NotFound'
- */
 const updateTransaction = async (req, res) => {
   const { id } = req.params;
 
@@ -469,6 +430,7 @@ const getFilteredCategoryTotals = async (req, res) => {
 };
 
 module.exports = {
+  getAllTransactions,
   createTransaction,
   deleteTransaction,
   filterTransactions,
