@@ -7,6 +7,7 @@ const {
   updateTransaction,
   getCategoryTotals,
   getFilteredCategoryTotals,
+  getAllTransactions,
 } = require('../controllers/transactionController');
 const auth = require('../middlewares/authMiddleware');
 
@@ -19,6 +20,8 @@ router.get('/:month/:year', auth, filterTransactions);
 router.patch('/:id', auth, updateTransaction);
 
 router.delete('/:id', auth, deleteTransaction);
+
+router.get('/', auth, getAllTransactions);
 
 router.post('/', auth, createTransaction);
 
