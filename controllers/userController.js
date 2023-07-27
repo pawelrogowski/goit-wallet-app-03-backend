@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken');
 const jwt = require('jsonwebtoken');
+const { TokenExpiredError } = require('jsonwebtoken');
 
 const { generateTokens } = require('../utils/token.js');
 const validator = require('validator');
@@ -98,21 +99,63 @@ const getUserProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const tokenToBlacklist = req.token;
+    // Get access token from header
+    const accessToken = req.header('Authorization').split(' ')[1];
 
-    await BlacklistedToken.create({ token: tokenToBlacklist });
+    // Get refresh token from request body
+    const refreshToken = req.body.refreshToken;
 
-    req.user.tokens = req.user.tokens.filter(token => token.token !== tokenToBlacklist);
+    // Verify and decode access token
+    const decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET);
 
-    await req.user.save();
+    // Verify and decode refresh token
+    const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_SECRET);
 
+    // Check token types
+    if (decodedAccessToken.type !== 'access' || decodedRefreshToken.type !== 'refresh') {
+      throw new Error('Invalid token type');
+    }
+
+    // Find user using decoded id
+    const user = await User.findById(decodedAccessToken.id);
+
+    // Ensure user exists
+    if (!user) {
+      throw new Error('No user found');
+    }
+
+    // Blacklist access token
+    await BlacklistedToken.create({
+      token: accessToken,
+    });
+
+    // Blacklist refresh token
+    await BlacklistedToken.create({
+      token: refreshToken,
+    });
+
+    // Filter out blacklisted tokens from user document
+    user.tokens = user.tokens.filter(token => {
+      return token !== accessToken && token !== refreshToken;
+    });
+
+    // Save updated user document
+    await user.save();
+
+    // Send logout success response
     res.status(200).json({
       message: 'Logged out successfully',
     });
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+    // Handle expired tokens
+    if (error instanceof TokenExpiredError) {
+      return res.status(401).json({ error: 'Token expired' });
+    }
+
+    // Handle invalid tokens
+    else {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
   }
 };
 
