@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken');
+const jwt = require('jsonwebtoken');
 
 const { generateTokens } = require('../utils/token.js');
 const validator = require('validator');
@@ -118,28 +119,40 @@ const logout = async (req, res) => {
 const refreshTokens = async (req, res) => {
   const refreshToken = req.body.refreshToken;
 
-  const user = await User.findOne({ refreshToken });
+  try {
+    const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_SECRET);
 
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid refresh token' });
+    if (decodedRefreshToken.type !== 'refresh') {
+      throw new Error('Invalid refresh token');
+    }
+
+    const user = await User.findById(decodedRefreshToken.id);
+
+    if (!user) {
+      throw new Error('Invalid refresh token');
+    }
+
+    const isBlacklisted = await BlacklistedToken.exists({ token: refreshToken });
+
+    if (isBlacklisted) {
+      throw new Error('Blacklisted refresh token');
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(user._id);
+
+    user.refreshToken = newRefreshToken;
+
+    await user.save();
+
+    res.json({
+      accessToken,
+      refreshToken: newRefreshToken,
+    });
+  } catch (error) {
+    res.status(401).json({
+      error: error.message,
+    });
   }
-
-  const isBlacklisted = await BlacklistedToken.exists({ token: refreshToken });
-
-  if (isBlacklisted) {
-    return res.status(401).json({ error: 'Blacklisted refresh token' });
-  }
-
-  const { accessToken, refreshToken: newRefreshToken } = generateTokens(user._id);
-
-  user.refreshToken = newRefreshToken;
-
-  await user.save();
-
-  res.json({
-    accessToken,
-    refreshToken: newRefreshToken,
-  });
 };
 
 module.exports = {

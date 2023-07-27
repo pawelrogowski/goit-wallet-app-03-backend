@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { v4: uuidv4 } = require('uuid'); // import uuid
 
 const generateAccessToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -7,13 +6,15 @@ const generateAccessToken = id => {
   });
 };
 
-const generateRefreshToken = () => {
-  return uuidv4(); // generate a random unique id
+const generateRefreshToken = id => {
+  return jwt.sign({ id, type: 'refresh' }, process.env.JWT_SECRET, {
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+  });
 };
 
 const generateTokens = id => {
   const accessToken = generateAccessToken(id);
-  const refreshToken = generateRefreshToken();
+  const refreshToken = generateRefreshToken(id);
 
   return {
     accessToken,
