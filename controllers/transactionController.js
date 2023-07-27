@@ -1,3 +1,4 @@
+// transactionController.js
 const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
@@ -145,6 +146,11 @@ const updateTransaction = async (req, res) => {
       return res.status(401).json({ error: 'Not authorized' });
     }
 
+    // Format date if provided
+    if (req.body.date) {
+      const formattedDate = convertToDDMMYYYY(req.body.date);
+      req.body.date = formattedDate;
+    }
     // Update fields
     transaction = await Transaction.findOneAndUpdate(
       { _id: id },
