@@ -140,16 +140,24 @@ const updateTransaction = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
-    // Ensure user owns transaction
+    // Ensure user owns the transaction
     if (!transaction.user.equals(req.user._id)) {
       return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    // Format the date to "DD-MM-YYYY" using convertToDDMMYYYY
+    if (req.body.date) {
+      req.body.date = convertToDDMMYYYY(req.body.date);
+      if (req.body.date === 'Invalid date') {
+        return res.status(400).json({ error: 'Invalid date format' });
+      }
     }
 
     // Update fields
     transaction = await Transaction.findOneAndUpdate(
       { _id: id },
-      { $set: req.body }, // set fields to update
-      { new: true } // return updated doc
+      { $set: req.body },
+      { new: true }
     );
 
     res.json(transaction);
