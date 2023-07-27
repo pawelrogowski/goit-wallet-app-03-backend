@@ -3,30 +3,6 @@ const BlacklistedToken = require('../models/BlacklistedToken'); // Import the Bl
 const { generateToken } = require('../utils/token.js');
 const validator = require('validator');
 
-/**
- * @openapi
- * /users/register:
- *   post:
- *     summary: Register a new user
- *     tags:
- *       - Users
- *     requestBody:
- *       description: User details
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: User created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserResponse'
- *       400:
- *         $ref: '#/components/responses/BadRequest'
- */
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -69,21 +45,6 @@ const register = async (req, res) => {
   }
 };
 
-/**
- * @openapi
- * /users/login:
- *   post:
- *     summary: Login a user
- *     tags:
- *       - Users
- *     requestBody:
- *       $ref: '#/components/requestBodies/LoginRequest'
- *     responses:
- *       200:
- *         $ref: '#/components/responses/AuthSuccess'
- *       400:
- *         $ref: '#/components/responses/AuthError'
- */
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -113,12 +74,6 @@ const login = async (req, res) => {
   }
 };
 
-/**
- * Get user profile
- *
- * @returns {User} 200 - Success
- * @returns {Error} 404 - User not found
- */
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -140,11 +95,6 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-/**
- * Logout a user
- *
- * @returns {SuccessMessage} 200 - Success
- */
 const logout = async (req, res) => {
   try {
     const tokenToBlacklist = req.token; // Get the token to be blacklisted
