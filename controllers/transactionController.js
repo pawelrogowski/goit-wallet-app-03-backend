@@ -1,6 +1,5 @@
-// transactionController.js
 const Transaction = require('../models/Transaction');
-const { convertToDDMMYYYY } = require('../utils/dateUtils');
+const { convertToDDMMYYYY, formatDate } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
 const categories = require('../utils/transactionCategories');
 
@@ -134,6 +133,11 @@ const filterTransactions = async (req, res) => {
 const updateTransaction = async (req, res) => {
   const { id } = req.params;
 
+  // Format date if provided
+  if (req.body.date) {
+    req.body.date = formatDate(req.body.date);
+  }
+
   try {
     let transaction = await Transaction.findById(id);
 
@@ -141,33 +145,30 @@ const updateTransaction = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
-    // Ensure user owns transaction
+    // Ensure user authorization
     if (!transaction.user.equals(req.user._id)) {
       return res.status(401).json({ error: 'Not authorized' });
     }
 
-    // Format date if provided
-    if (req.body.date) {
-      const formattedDate = convertToDDMMYYYY(req.body.date);
-      req.body.date = formattedDate;
-    }
-    // Update fields
     transaction = await Transaction.findOneAndUpdate(
       { _id: id },
-      { $set: req.body }, // set fields to update
-      { new: true } // return updated doc
+      { $set: req.body },
+      { new: true }
     );
+
+    // Update formatted date in database
+    if (req.body.date) {
+      await Transaction.updateOne({ _id: id }, { $set: { date: req.body.date } });
+    }
 
     res.json(transaction);
   } catch (error) {
     console.error(error);
-    res.status(500).send({ error: 'Server Error' });
+    res.status(500).send({ error: 'Server error' });
   }
 };
 
 const getCategoryTotals = async (req, res) => {
-  // Allowed categories
-
   try {
     // Calculate total income
     const totalIncomeResult = await Transaction.aggregate([

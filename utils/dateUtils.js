@@ -22,6 +22,14 @@ function convertToDDMMYYYY(dateString) {
   return date.isValid() ? date.format('DD-MM-YYYY') : 'Invalid date';
 }
 
+function formatDate(date) {
+  if (!date) return null;
+
+  const formatted = moment(date).format('DD-MM-YYYY');
+
+  return formatted;
+}
 module.exports = {
   convertToDDMMYYYY,
+  formatDate,
 };
