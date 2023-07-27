@@ -16,12 +16,14 @@ function convertToDDMMYYYY(dateString) {
     'DD MMMM YYYY',
     'YYYY/MM/DD',
     'DD.MM.YYYY',
+    'DD-MM-YYYY',
   ];
 
   const date = moment(dateString, formats, true);
   return date.isValid() ? date.format('DD-MM-YYYY') : 'Invalid date';
 }
 
+console.log(convertToDDMMYYYY('22-12-1000'));
 module.exports = {
   convertToDDMMYYYY,
 };
