@@ -1,12 +1,13 @@
 const User = require('../models/User');
-const BlacklistedToken = require('../models/BlacklistedToken'); // Import the BlacklistedToken model
-const { generateToken } = require('../utils/token.js');
+const BlacklistedToken = require('../models/BlacklistedToken');
+const jwt = require('jsonwebtoken');
+
+const { generateTokens } = require('../utils/token.js');
 const validator = require('validator');
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Validate email format using validator
   if (!validator.isEmail(email)) {
     return res.status(400).json({
       error: 'Invalid email format',
@@ -14,29 +15,27 @@ const register = async (req, res) => {
   }
 
   try {
-    // Check if the email already exists in the database
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(409).json({
-        error: 'Email is already in use, choose a different email',
+        error: 'Email is already in use',
       });
     }
 
-    // If the email is not found in the database, create a new user
     const user = await User.create({
       name,
       email,
       password,
     });
 
-    // Generate JWT token for a new user
-    const token = generateToken(user._id);
+    // Generate both access and refresh tokens
+    const { accessToken, refreshToken } = generateTokens(user._id);
 
-    // Give a response with user and the token
     res.status(201).json({
+      accessToken,
+      refreshToken,
       user,
-      token,
     });
   } catch (error) {
     res.status(400).json({
@@ -61,10 +60,12 @@ const login = async (req, res) => {
       throw new Error('Invalid credentials');
     }
 
-    const token = generateToken(user._id);
+    // Generate both access and refresh tokens
+    const { accessToken, refreshToken } = generateTokens(user._id);
 
     res.json({
-      token,
+      accessToken,
+      refreshToken,
       user,
     });
   } catch (error) {
@@ -97,12 +98,10 @@ const getUserProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const tokenToBlacklist = req.token; // Get the token to be blacklisted
+    const tokenToBlacklist = req.token;
 
-    // Add the token to the BlacklistedToken collection
     await BlacklistedToken.create({ token: tokenToBlacklist });
 
-    // Filter out the token from the user's tokens (optional but recommended)
     req.user.tokens = req.user.tokens.filter(token => token.token !== tokenToBlacklist);
 
     await req.user.save();
@@ -117,9 +116,49 @@ const logout = async (req, res) => {
   }
 };
 
+const refreshTokens = async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+
+  try {
+    const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_SECRET);
+
+    if (decodedRefreshToken.type !== 'refresh') {
+      throw new Error('Invalid refresh token');
+    }
+
+    const user = await User.findById(decodedRefreshToken.id);
+
+    if (!user) {
+      throw new Error('Invalid refresh token');
+    }
+
+    const isBlacklisted = await BlacklistedToken.exists({ token: refreshToken });
+
+    if (isBlacklisted) {
+      throw new Error('Blacklisted refresh token');
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(user._id);
+
+    user.refreshToken = newRefreshToken;
+
+    await user.save();
+
+    res.json({
+      accessToken,
+      refreshToken: newRefreshToken,
+    });
+  } catch (error) {
+    res.status(401).json({
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
   getUserProfile,
   logout,
+  refreshTokens,
 };

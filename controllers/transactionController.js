@@ -168,8 +168,6 @@ const updateTransaction = async (req, res) => {
 };
 
 const getCategoryTotals = async (req, res) => {
-  // Allowed categories
-
   try {
     // Calculate total income
     const totalIncomeResult = await Transaction.aggregate([
