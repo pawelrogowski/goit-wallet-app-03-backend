@@ -115,9 +115,37 @@ const logout = async (req, res) => {
   }
 };
 
+const refreshTokens = async (req, res) => {
+  const refreshToken = req.body.refreshToken;
+
+  const user = await User.findOne({ refreshToken });
+
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid refresh token' });
+  }
+
+  const isBlacklisted = await BlacklistedToken.exists({ token: refreshToken });
+
+  if (isBlacklisted) {
+    return res.status(401).json({ error: 'Blacklisted refresh token' });
+  }
+
+  const { accessToken, refreshToken: newRefreshToken } = generateTokens(user._id);
+
+  user.refreshToken = newRefreshToken;
+
+  await user.save();
+
+  res.json({
+    accessToken,
+    refreshToken: newRefreshToken,
+  });
+};
+
 module.exports = {
   register,
   login,
   getUserProfile,
   logout,
+  refreshTokens,
 };
