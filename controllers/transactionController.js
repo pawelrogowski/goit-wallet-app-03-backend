@@ -53,8 +53,15 @@ const createTransaction = async (req, res) => {
 };
 
 // Delete transaction
+const mongoose = require('mongoose');
+
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;
+
+  // Validate if the ID is in the correct format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid transaction ID format' });
+  }
 
   try {
     const transaction = await Transaction.findById(id);
@@ -65,7 +72,7 @@ const deleteTransaction = async (req, res) => {
     }
 
     // Verify user owns transaction
-    if (transaction.user.toString() !== req.user._id.toString()) {
+    if (transaction.user && transaction.user.toString() !== req.user._id.toString()) {
       console.log('Not authorized'); // Log to see if this block is executed
       return res.status(401).json({ error: 'Not authorized' });
     }
