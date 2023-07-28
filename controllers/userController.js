@@ -99,47 +99,28 @@ const getUserProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    // Get access token from header
+    // Get and verify access token
     const accessToken = req.header('Authorization').split(' ')[1];
-
-    // Get refresh token from request body
-    const refreshToken = req.body.refreshToken;
-
-    // Verify and decode access token
-    const decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET);
-
-    // Verify and decode refresh token
-    const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_SECRET);
-
-    // Check token types
-    if (decodedAccessToken.type !== 'access' || decodedRefreshToken.type !== 'refresh') {
-      throw new Error('Invalid token type');
-    }
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
     // Find user using decoded id
-    const user = await User.findById(decodedAccessToken.id);
+    const user = await User.findById(decoded.id);
 
-    // Ensure user exists
-    if (!user) {
-      throw new Error('No user found');
-    }
+    // Get current refresh token from user document
+    const refreshToken = user.refreshToken;
 
     // Blacklist access token
-    await BlacklistedToken.create({
-      token: accessToken,
-    });
+    await BlacklistedToken.create({ token: accessToken });
 
     // Blacklist refresh token
-    await BlacklistedToken.create({
-      token: refreshToken,
-    });
+    await BlacklistedToken.create({ token: refreshToken });
 
-    // Filter out blacklisted tokens from user document
+    // Filter tokens from user document
     user.tokens = user.tokens.filter(token => {
       return token !== accessToken && token !== refreshToken;
     });
 
-    // Save updated user document
+    // Save updated user
     await user.save();
 
     // Send logout success response
