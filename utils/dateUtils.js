@@ -23,7 +23,6 @@ function convertToDDMMYYYY(dateString) {
   return date.isValid() ? date.format('DD-MM-YYYY') : 'Invalid date';
 }
 
-console.log(convertToDDMMYYYY('22-12-1000'));
 module.exports = {
   convertToDDMMYYYY,
 };
