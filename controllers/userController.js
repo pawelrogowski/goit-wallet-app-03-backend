@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken');
 const jwt = require('jsonwebtoken');
+const { TokenExpiredError } = require('jsonwebtoken');
 
 const { generateTokens } = require('../utils/token.js');
 const validator = require('validator');
@@ -98,21 +99,27 @@ const getUserProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const tokenToBlacklist = req.token;
+    const accessToken = req.header('Authorization').split(' ')[1];
 
-    await BlacklistedToken.create({ token: tokenToBlacklist });
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
-    req.user.tokens = req.user.tokens.filter(token => token.token !== tokenToBlacklist);
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const refreshToken = user.refreshToken;
+    await user.save();
 
-    await req.user.save();
-
-    res.status(200).json({
-      message: 'Logged out successfully',
-    });
+    await BlacklistedToken.create({ token: accessToken });
+    await BlacklistedToken.create({ token: refreshToken });
+    res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+    if (error instanceof TokenExpiredError) {
+      return res.status(401).json({ error: 'Token expired' });
+    } else {
+      console.error(error);
+      return res.status(401).json({ error: 'Invalid token' });
+    }
   }
 };
 
