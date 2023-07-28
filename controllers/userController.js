@@ -110,8 +110,8 @@ const logout = async (req, res) => {
     const refreshToken = user.refreshToken;
     await user.save();
 
-    // await BlacklistedToken.create({ token: accessToken });
-    // await BlacklistedToken.create({ token: refreshToken });
+    await BlacklistedToken.create({ token: accessToken });
+    await BlacklistedToken.create({ token: refreshToken });
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     if (error instanceof TokenExpiredError) {
