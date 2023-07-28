@@ -99,42 +99,25 @@ const getUserProfile = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    // Get and verify access token
     const accessToken = req.header('Authorization').split(' ')[1];
+
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
-    // Find user using decoded id
     const user = await User.findById(decoded.id);
-
-    // Get current refresh token from user document
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
     const refreshToken = user.refreshToken;
-
-    // Blacklist access token
-    await BlacklistedToken.create({ token: accessToken });
-
-    // Blacklist refresh token
-    await BlacklistedToken.create({ token: refreshToken });
-
-    // Filter tokens from user document
-    user.tokens = user.tokens.filter(token => {
-      return token !== accessToken && token !== refreshToken;
-    });
-
-    // Save updated user
     await user.save();
 
-    // Send logout success response
-    res.status(200).json({
-      message: 'Logged out successfully',
-    });
+    await BlacklistedToken.create({ token: accessToken });
+    await BlacklistedToken.create({ token: refreshToken });
+    res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
-    // Handle expired tokens
     if (error instanceof TokenExpiredError) {
       return res.status(401).json({ error: 'Token expired' });
-    }
-
-    // Handle invalid tokens
-    else {
+    } else {
+      console.error(error);
       return res.status(401).json({ error: 'Invalid token' });
     }
   }

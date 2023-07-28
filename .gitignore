@@ -2,6 +2,7 @@ node_modules/
 .idea
 .vscode
 .env
+logs.log
 !/routes/
 !/controllers/
 !/middlewares/
