@@ -52,9 +52,6 @@ const createTransaction = async (req, res) => {
   }
 };
 
-// Delete transaction
-const mongoose = require('mongoose');
-
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;
 
