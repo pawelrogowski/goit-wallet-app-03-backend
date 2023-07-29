@@ -1,8 +1,8 @@
 const categories = [
-  {
-    name: 'Income',
-    color: '#B7E095',
-  },
+  // {
+  //   name: 'Income',
+  //   color: '#B7E095',
+  // },
   {
     name: 'Main expenses',
     color: '#FED057',
@@ -36,8 +36,13 @@ const categories = [
     color: '#24CCA7',
   },
   {
+    name: 'Entertainment',
+    color: '#B7E095',
+  },
+  {
     name: 'Other expenses',
     color: '#00AD84',
   },
 ];
+
 module.exports = categories;

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const validCategories = require('../utils/validCategories');
+
 const TransactionSchema = new mongoose.Schema(
   {
     user: {
@@ -16,6 +18,7 @@ const TransactionSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: validCategories,
     },
 
     date: {
@@ -40,14 +43,3 @@ const TransactionSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Transaction', TransactionSchema);
-
-// categories can be:
-// Income
-// Main expenses
-// Products
-// Car
-// Self care
-// Child care
-// Household products
-// Education
-// Other expenses

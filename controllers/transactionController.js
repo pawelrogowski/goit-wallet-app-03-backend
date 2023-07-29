@@ -2,6 +2,7 @@ const Transaction = require('../models/Transaction');
 const { convertToDDMMYYYY } = require('../utils/dateUtils');
 const mongoose = require('mongoose');
 const categories = require('../utils/transactionCategories');
+const validCategories = require('../utils/validCategories');
 
 const getAllTransactions = async (req, res) => {
   try {
@@ -34,6 +35,12 @@ const createTransaction = async (req, res) => {
 
   // Set the category to "Income" if isIncome is true
   const finalCategory = isIncome ? 'Income' : category;
+
+  if (!validCategories.includes(finalCategory)) {
+    return res
+      .status(400)
+      .json({ error: 'Invalid category provided. Please choose a valid category.' });
+  }
 
   // Create the transaction
   try {
@@ -157,6 +164,12 @@ const updateTransaction = async (req, res) => {
       }
     }
 
+    if (req.body.category && !validCategories.includes(req.body.category)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid category provided. Please choose a valid category.' });
+    }
+
     // Update fields
     transaction = await Transaction.findOneAndUpdate(
       { _id: id },
@@ -198,6 +211,7 @@ const getCategoryTotals = async (req, res) => {
     ]);
 
     const totalIncome = totalIncomeResult.length ? totalIncomeResult[0].totalIncome : 0;
+    console.log('Total Income:', totalIncome);
 
     // Calculate total expenses
     const totalExpensesResult = await Transaction.aggregate([
@@ -222,9 +236,11 @@ const getCategoryTotals = async (req, res) => {
     ]);
 
     const totalExpenses = totalExpensesResult.length ? totalExpensesResult[0].totalExpenses : 0;
+    console.log('Total Expenses:', totalExpenses);
 
     // Calculate the difference between income and expenses
     const difference = totalIncome - totalExpenses;
+    console.log('Difference:', difference);
 
     const results = await Transaction.aggregate([
       {
@@ -247,9 +263,14 @@ const getCategoryTotals = async (req, res) => {
       },
     ]);
 
+    // Add console log to check all categories found in the transactions
+    const foundCategories = results.map(result => result.category);
+    console.log('Found Categories:', foundCategories);
+
     // fix response array
     const totals = categories.map(category => {
       const categoryTotal = results.find(c => c.category === category.name)?.total;
+      console.log(`Category: ${category.name}, Total: ${categoryTotal || 0}`);
 
       return {
         category: category.name,
@@ -266,7 +287,7 @@ const getCategoryTotals = async (req, res) => {
       totals,
     };
 
-    console.log(response);
+    console.log('Response:', response);
     res.json(response);
   } catch (error) {
     console.error(error);
