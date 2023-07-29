@@ -245,10 +245,10 @@ const getCategoryTotals = async (req, res) => {
       },
     ]);
 
-    // fix response array
+    // Fix response array (exclude 'Income' category)
+    const filteredTotals = results.filter(item => item.category !== 'Income');
     const totals = categories.map(category => {
-      const categoryTotal = results.find(c => c.category === category.name)?.total;
-
+      const categoryTotal = filteredTotals.find(c => c.category === category.name)?.total;
       return {
         category: category.name,
         sum: Math.abs(categoryTotal || 0), // Make total positive or 0
@@ -271,6 +271,9 @@ const getCategoryTotals = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// Categories array remains the same as defined previously
+module.exports = categories;
 
 const getFilteredCategoryTotals = async (req, res) => {
   const { month, year } = req.params;
@@ -413,9 +416,11 @@ const getFilteredCategoryTotals = async (req, res) => {
     ]);
 
     // fix response array
-    const totals = categories.map(category => {
-      const categoryTotal = results.find(c => c.category === category.name)?.total;
 
+    // Fix response array (exclude 'Income' category)
+    const filteredTotals = results.filter(item => item.category !== 'Income');
+    const totals = categories.map(category => {
+      const categoryTotal = filteredTotals.find(c => c.category === category.name)?.total;
       return {
         category: category.name,
         sum: Math.abs(categoryTotal || 0), // Make total positive or 0
