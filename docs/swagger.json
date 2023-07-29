@@ -10,7 +10,7 @@
       "url": "https://wallet-lzvg.onrender.com/api"
     },
     {
-      "url": "http://localhost:3100/api"
+      "url": "http://localhost:3101/api"
     }
   ],
   "tags": [
