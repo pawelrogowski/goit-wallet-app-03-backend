@@ -104,14 +104,15 @@ const logout = async (req, res) => {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.id);
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    const refreshToken = user.refreshToken;
-    await user.save();
 
     await BlacklistedToken.create({ token: accessToken });
-    await BlacklistedToken.create({ token: refreshToken });
+
+    // No refresh token blacklist
+
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     if (error instanceof TokenExpiredError) {
