@@ -1,6 +1,7 @@
 # Wallet API 🏦
 
-## Active Documentation: https://wallet-lzvg.onrender.com/api-docs/
+## [Live API Documentation](https://wallet-lzvg.onrender.com/api-docs/) 📝
+
 
 ## Overview 📝
 
