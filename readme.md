@@ -1,5 +1,7 @@
 # Wallet API 🏦
 
+## Active Documentation: https://wallet-lzvg.onrender.com/api-docs/
+
 ## Overview 📝
 
 The Wallet API provides endpoints for user management and tracking personal finances through
@@ -13,6 +15,7 @@ income, expenses, and totals per category.
 
 - ✅ **POST /users/register**: Register a new user
 - ✅ **POST /users/login**: Login an existing user
+- ✅ **POST /users/refresh**: Refresh Tokens - requires valid refresh token
 - 🔒 **GET /users/profile**: Get profile of authenticated user
 - 🔒 **GET /users/logout**: Logout authenticated user
 
@@ -30,12 +33,12 @@ income, expenses, and totals per category.
 **Authentication** 🔑 The API uses JWT tokens for authentication. Register and login endpoints
 provide new tokens. Provide the Bearer token in the Authorization header to authenticate requests.
 
-**Error Handling** ❌
+**Error Handling** 
 
-- Validation errors return 400 with a ValidationError response.
-- Unauthorized requests return 401 status.
-- NotFound errors return 404 status.
-- Other server errors return 500 status.
+- ❌ Validation errors return 400 with a ValidationError response.
+- ❌ Unauthorized requests return 401 status.
+- ❌ NotFound errors return 404 status.
+- ❌ Other server errors return 500 status.
 
 **Libraries** 📚 You can interact with the API using any HTTP client like:
 
