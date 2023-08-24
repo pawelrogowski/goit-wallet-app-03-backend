@@ -77,7 +77,6 @@ const deleteTransaction = async (req, res) => {
 
     // Verify user owns transaction
     if (transaction.user && transaction.user.toString() !== req.user._id.toString()) {
-      console.log('Not authorized'); // Log to see if this block is executed
       return res.status(401).json({ error: 'Not authorized' });
     }
 
@@ -132,11 +131,8 @@ const filterTransactions = async (req, res) => {
       },
     ]);
 
-    // Return filtered transactions as JSON response
     res.json(transactions);
   } catch (error) {
-    // Handle errors during the database query
-    console.log(error);
     res.status(500).json({ error: 'Something went wrong' });
   }
 };
@@ -211,14 +207,12 @@ const getCategoryTotals = async (req, res) => {
     ]);
 
     const totalIncome = totalIncomeResult.length ? totalIncomeResult[0].totalIncome : 0;
-    console.log('Total Income:', totalIncome);
 
-    // Calculate total expenses
     const totalExpensesResult = await Transaction.aggregate([
       {
         $match: {
           user: new mongoose.Types.ObjectId(req.user._id),
-          category: { $ne: 'Income' }, // Match all categories except 'Income'
+          category: { $ne: 'Income' },
         },
       },
       {
@@ -236,11 +230,8 @@ const getCategoryTotals = async (req, res) => {
     ]);
 
     const totalExpenses = totalExpensesResult.length ? totalExpensesResult[0].totalExpenses : 0;
-    console.log('Total Expenses:', totalExpenses);
 
-    // Calculate the difference between income and expenses
     const difference = totalIncome - totalExpenses;
-    console.log('Difference:', difference);
 
     const results = await Transaction.aggregate([
       {
@@ -265,12 +256,10 @@ const getCategoryTotals = async (req, res) => {
 
     // Add console log to check all categories found in the transactions
     const foundCategories = results.map(result => result.category);
-    console.log('Found Categories:', foundCategories);
 
     // fix response array
     const totals = categories.map(category => {
       const categoryTotal = results.find(c => c.category === category.name)?.total;
-      console.log(`Category: ${category.name}, Total: ${categoryTotal || 0}`);
 
       return {
         category: category.name,
@@ -287,7 +276,6 @@ const getCategoryTotals = async (req, res) => {
       totals,
     };
 
-    console.log('Response:', response);
     res.json(response);
   } catch (error) {
     console.error(error);
@@ -454,7 +442,6 @@ const getFilteredCategoryTotals = async (req, res) => {
       totals,
     };
 
-    console.log(response);
     res.json(response);
   } catch (error) {
     console.error(error);
