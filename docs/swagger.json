@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://wallet-lzvg.onrender.com/api"
+      "url": "https://prwallet.onrender.com/api"
     },
     {
       "url": "http://localhost:3000/api"
