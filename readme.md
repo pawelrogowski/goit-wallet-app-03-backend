@@ -1,6 +1,6 @@
 # Wallet API 🏦
 
-## [Live API Documentation](https://wallet-lzvg.onrender.com/api-docs/) 📝
+## [Live API Documentation](https://prwallet.onrender.com/api-docs/) 📝
 
 
 ## Overview 📝
