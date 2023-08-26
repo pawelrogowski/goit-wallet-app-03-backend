@@ -56,7 +56,9 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/users', userRouter);
 app.use('/api/transactions', transactionRouter);
-
+app.get('/api/heartbeat', (req, res) => {
+  res.json({ status: 'ok' });
+});
 // Error handling middleware
 app.use((err, req, res, next) => {
   // Check if the error is a known Mongoose validation error
